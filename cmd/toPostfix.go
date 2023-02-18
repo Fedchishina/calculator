@@ -1,20 +1,22 @@
-package service
+package main
 
 import (
-	"calculator/application/entity"
-	"calculator/application/stack"
 	"strings"
+
+	"github.com/Fedchishina/calculator/stack"
 )
 
-func ToPostfix(expr entity.InfixExpr) entity.PostfixExpr {
+type PostfixExpr string
+
+func ToPostfix(expr InfixExpr) PostfixExpr {
 	var str, postfixExpr string
 	var st stack.Stack
-	operationPriority := GetOperationPriority()
+	operationPriority := operatorsPriority()
 	symbols := strings.Split(string(expr), "")
 
 	for i := 0; i < len(symbols); i++ {
 		switch {
-		case IsDigit(symbols[i]):
+		case isDigit(symbols[i]):
 			{
 				str, i = GetStringNumber(string(expr), i)
 				postfixExpr += str + " "
@@ -46,5 +48,5 @@ func ToPostfix(expr entity.InfixExpr) entity.PostfixExpr {
 		st.Pop()
 	}
 
-	return entity.PostfixExpr(postfixExpr)
+	return PostfixExpr(postfixExpr)
 }

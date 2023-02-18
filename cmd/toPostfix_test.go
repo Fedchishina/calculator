@@ -1,19 +1,18 @@
-package service
+package main
 
 import (
-	"calculator/application/entity"
 	"testing"
 )
 
 func TestToPostfix(t *testing.T) {
 	type testPair struct {
-		value  entity.InfixExpr
-		result entity.PostfixExpr
+		value  InfixExpr
+		result PostfixExpr
 	}
 
 	var tests = []testPair{
-		{entity.InfixExpr("(2+3)*4"), entity.PostfixExpr("2 3 + 4 * ")},
-		{entity.InfixExpr("2+(3*4)"), entity.PostfixExpr("2 3 4 * + ")},
+		{InfixExpr("(2+3)*4"), PostfixExpr("2 3 + 4 * ")},
+		{InfixExpr("2+(3*4)"), PostfixExpr("2 3 4 * + ")},
 	}
 
 	for _, pair := range tests {
