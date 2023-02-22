@@ -18,7 +18,7 @@ func ToPostfix(expr InfixExpr) PostfixExpr {
 		switch {
 		case isDigit(symbols[i]):
 			{
-				str, i = GetStringNumber(string(expr), i)
+				str, i = getStringNumber(string(expr), i)
 				postfixExpr += str + " "
 			}
 		case symbols[i] == "(":
@@ -49,4 +49,21 @@ func ToPostfix(expr InfixExpr) PostfixExpr {
 	}
 
 	return PostfixExpr(postfixExpr)
+}
+
+func operatorsPriority() map[string]int {
+	return map[string]int{
+		"(": 0,
+		"+": 1,
+		"-": 1,
+		"*": 2,
+		"/": 2,
+		"^": 3,
+	}
+}
+
+func validOperators() []string {
+	return []string{
+		"+", "-", "/", "*", "^",
+	}
 }

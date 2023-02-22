@@ -18,7 +18,7 @@ func Calculate(expr PostfixExpr) string {
 
 	for i := 0; i < len(symbols); i++ {
 		if isDigit(symbols[i]) {
-			number, i = GetStringNumber(string(expr), i)
+			number, i = getStringNumber(string(expr), i)
 			numbers.Push(number)
 		} else if contains(operators, symbols[i]) {
 			first, _ = strconv.ParseFloat(numbers.Top(), 64)

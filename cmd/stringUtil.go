@@ -22,7 +22,7 @@ func contains(a []string, x string) bool {
 	return false
 }
 
-func GetStringNumber(expr string, pos int) (string, int) {
+func getStringNumber(expr string, pos int) (string, int) {
 	var strNumber string
 	exprArray := strings.Split(expr, "")
 	for ; pos < len(exprArray); pos++ {

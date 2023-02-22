@@ -9,10 +9,9 @@ func main() {
 	fmt.Scan(&input)
 
 	ie := InfixExpr(input)
-	v := New()
 
-	if ie.Validate(v, input); !v.Valid() {
-		v.WriteErrors()
+	if err := ie.Validate(); err != nil {
+		fmt.Println(err)
 		return
 	}
 
