@@ -6,10 +6,6 @@ type Stack struct {
 	items []string
 }
 
-func New() *Stack {
-	return &Stack{items: nil}
-}
-
 func (s *Stack) Push(data string) {
 	s.items = append(s.items, data)
 }

@@ -2,48 +2,58 @@ package app
 
 import (
 	"fmt"
-	"github.com/Fedchishina/calculator/app/stack"
+	"log"
 	"math"
 	"strconv"
 	"strings"
+
+	"github.com/Fedchishina/calculator/app/stack"
 )
 
-func Calculate(expr Postfix) string {
+func Calculate(expr Postfix) (string, error) {
 	var numbers stack.Stack
 	var number string
 	var first, second float64
-	operators := validOperators()
-	symbols := strings.Split(string(expr), "")
+	var err error
 
+	symbols := strings.Split(string(expr), "")
 	for i := 0; i < len(symbols); i++ {
 		if isDigit(symbols[i]) {
-			number, i = getStringNumber(string(expr), i)
+			number, i = findWholeNumber(string(expr), i)
 			numbers.Push(number)
-		} else if contains(operators, symbols[i]) {
-			first, _ = strconv.ParseFloat(numbers.Top(), 64)
+		}
+		if isOperator(symbols[i]) {
+			first, err = strconv.ParseFloat(numbers.Top(), 64)
+			if err != nil {
+				log.Fatalf("error during parsing %v to float : %v", first, err)
+			}
+
 			numbers.Pop()
-			second, _ = strconv.ParseFloat(numbers.Top(), 64)
+			second, err = strconv.ParseFloat(numbers.Top(), 64)
+			if err != nil {
+				log.Fatalf("error during parsing %v to float : %v", first, err)
+			}
+
 			numbers.Pop()
 			ex := execute(symbols[i], first, second)
-
 			numbers.Push(fmt.Sprintf("%f", ex))
 		}
 	}
 
-	return numbers.Top()
+	return numbers.Top(), nil
 }
 
 func execute(op string, first float64, second float64) float64 {
-	switch {
-	case op == "+":
+	switch op {
+	case "+":
 		return first + second
-	case op == "-":
+	case "-":
 		return first - second
-	case op == "*":
+	case "*":
 		return first * second
-	case op == "/":
+	case "/":
 		return first * second
-	case op == "^":
+	case "^":
 		return math.Pow(first, second)
 	}
 	return 0

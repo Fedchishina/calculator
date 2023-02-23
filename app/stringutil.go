@@ -5,6 +5,11 @@ import (
 	"strings"
 )
 
+const (
+	openingBracket = "("
+	closingBracket = ")"
+)
+
 func isDigit(s string) bool {
 	if _, err := strconv.Atoi(s); err == nil {
 		return true
@@ -13,16 +18,11 @@ func isDigit(s string) bool {
 	return false
 }
 
-func contains(a []string, x string) bool {
-	for _, n := range a {
-		if x == n {
-			return true
-		}
-	}
-	return false
+func isOperator(s string) bool {
+	return strings.Contains("+-/*^", s)
 }
 
-func getStringNumber(expr string, pos int) (string, int) {
+func findWholeNumber(expr string, pos int) (string, int) {
 	var strNumber string
 	exprArray := strings.Split(expr, "")
 	for ; pos < len(exprArray); pos++ {

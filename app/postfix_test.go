@@ -5,24 +5,22 @@ import (
 )
 
 func TestToPostfix(t *testing.T) {
-	type testPair struct {
-		value  Infix
-		result Postfix
+	type args struct {
+		expr Infix
 	}
-
-	var tests = []testPair{
-		{Infix("(2+3)*4"), Postfix("2 3 + 4 * ")},
-		{Infix("2+(3*4)"), Postfix("2 3 4 * + ")},
+	tests := []struct {
+		name string
+		args args
+		want Postfix
+	}{
+		{"example 1", args{Infix("(2+3)*4")}, Postfix("2 3 + 4 * ")},
+		{"example 2", args{Infix("2+(3*4)")}, Postfix("2 3 4 * + ")},
 	}
-
-	for _, pair := range tests {
-		v := ToPostfix(pair.value)
-		if v != pair.result {
-			t.Error(
-				"For", pair.value,
-				"expected", pair.result,
-				"got", v,
-			)
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ToPostfix(tt.args.expr); got != tt.want {
+				t.Errorf("ToPostfix() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

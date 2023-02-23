@@ -3,48 +3,39 @@ package app
 import (
 	"errors"
 	"fmt"
-	"github.com/Fedchishina/calculator/app/stack"
 	"strings"
+
+	"github.com/Fedchishina/calculator/app/stack"
 )
 
 type Infix string
 
 func (i Infix) Validate() error {
-	value := string(i)
-
-	if value == "" {
+	switch {
+	case i == "":
 		return errors.New("the input data is empty. Enter data please")
-	}
-
-	if err := symbolsIsValid(value); err != nil {
-		return err
-	}
-
-	if !checkBalance(value) {
+	case symbolsIsValid(i) != nil:
+		return symbolsIsValid(i)
+	case !checkBalance(i):
 		return errors.New("the input data is invalid: problem with parentheses")
 	}
 
 	return nil
 }
 
-func symbolsIsValid(input string) error {
-	validSymbols := []string{
-		"1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
-		"+", "-", "/", "*",
-		"(", ")",
-		"^",
-	}
+func symbolsIsValid(input Infix) error {
+	validSymbols := "1234567890+-/*()^"
 
-	for _, s := range strings.Split(input, "") {
-		if !contains(validSymbols, s) {
-			return fmt.Errorf("wrong symbol in input data: %q ", s)
+	for _, i := range input {
+		if !strings.ContainsRune(validSymbols, i) {
+			return fmt.Errorf("wrong symbol in input data: %q ", i)
 		}
 	}
 
 	return nil
 }
 
-func checkBalance(input string) bool {
+func checkBalance(input Infix) bool {
 	st := stack.Stack{}
 
 	for _, char := range input {
@@ -64,5 +55,6 @@ func checkBalance(input string) bool {
 	if st.IsEmpty() {
 		return true
 	}
+
 	return false
 }

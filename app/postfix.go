@@ -1,8 +1,9 @@
 package app
 
 import (
-	"github.com/Fedchishina/calculator/app/stack"
 	"strings"
+
+	"github.com/Fedchishina/calculator/app/stack"
 )
 
 type Postfix string
@@ -16,29 +17,23 @@ func ToPostfix(expr Infix) Postfix {
 	for i := 0; i < len(symbols); i++ {
 		switch {
 		case isDigit(symbols[i]):
-			{
-				str, i = getStringNumber(string(expr), i)
-				postfixExpr += str + " "
-			}
-		case symbols[i] == "(":
-			st.Push("(")
-		case symbols[i] == ")":
-			{
-				for st.Count() > 0 && st.Top() != "(" {
-					postfixExpr += st.Top() + " "
-					st.Pop()
-				}
+			str, i = findWholeNumber(string(expr), i)
+			postfixExpr += str + " "
+		case symbols[i] == openingBracket:
+			st.Push(openingBracket)
+		case symbols[i] == closingBracket:
+			for st.Count() > 0 && st.Top() != openingBracket {
+				postfixExpr += st.Top() + " "
 				st.Pop()
 			}
+			st.Pop()
 		default:
-			{
-				op := symbols[i]
-				for st.Count() > 0 && operationPriority[st.Top()] >= operationPriority[op] {
-					postfixExpr += st.Top() + " "
-					st.Pop()
-				}
-				st.Push(op)
+			op := symbols[i]
+			for st.Count() > 0 && operationPriority[st.Top()] >= operationPriority[op] {
+				postfixExpr += st.Top() + " "
+				st.Pop()
 			}
+			st.Push(op)
 		}
 	}
 
@@ -58,11 +53,5 @@ func operatorsPriority() map[string]int {
 		"*": 2,
 		"/": 2,
 		"^": 3,
-	}
-}
-
-func validOperators() []string {
-	return []string{
-		"+", "-", "/", "*", "^",
 	}
 }
