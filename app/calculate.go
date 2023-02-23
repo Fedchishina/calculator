@@ -1,15 +1,14 @@
-package main
+package app
 
 import (
 	"fmt"
+	"github.com/Fedchishina/calculator/app/stack"
 	"math"
 	"strconv"
 	"strings"
-
-	"github.com/Fedchishina/calculator/stack"
 )
 
-func Calculate(expr PostfixExpr) string {
+func Calculate(expr Postfix) string {
 	var numbers stack.Stack
 	var number string
 	var first, second float64

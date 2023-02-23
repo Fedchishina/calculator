@@ -1,15 +1,15 @@
-package main
+package app
 
 import (
 	"errors"
 	"fmt"
-	"github.com/Fedchishina/calculator/stack"
+	"github.com/Fedchishina/calculator/app/stack"
 	"strings"
 )
 
-type InfixExpr string
+type Infix string
 
-func (i InfixExpr) Validate() error {
+func (i Infix) Validate() error {
 	value := string(i)
 
 	if value == "" {

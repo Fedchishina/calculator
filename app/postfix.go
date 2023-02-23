@@ -1,14 +1,13 @@
-package main
+package app
 
 import (
+	"github.com/Fedchishina/calculator/app/stack"
 	"strings"
-
-	"github.com/Fedchishina/calculator/stack"
 )
 
-type PostfixExpr string
+type Postfix string
 
-func ToPostfix(expr InfixExpr) PostfixExpr {
+func ToPostfix(expr Infix) Postfix {
 	var str, postfixExpr string
 	var st stack.Stack
 	operationPriority := operatorsPriority()
@@ -48,7 +47,7 @@ func ToPostfix(expr InfixExpr) PostfixExpr {
 		st.Pop()
 	}
 
-	return PostfixExpr(postfixExpr)
+	return Postfix(postfixExpr)
 }
 
 func operatorsPriority() map[string]int {

@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"testing"
@@ -7,13 +7,13 @@ import (
 func TestInfixExpr_Validate(t *testing.T) {
 	tests := []struct {
 		name    string
-		i       InfixExpr
+		i       Infix
 		wantErr bool
 	}{
-		{"empty input data", InfixExpr(""), true},
-		{"wrong symbols", InfixExpr("sss"), true},
-		{"check balance", InfixExpr("(1+1))"), true},
-		{"success", InfixExpr("(1+1)"), false},
+		{"empty input data", Infix(""), true},
+		{"wrong symbols", Infix("sss"), true},
+		{"check balance", Infix("(1+1))"), true},
+		{"success", Infix("(1+1)"), false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -1,22 +1,22 @@
-package main
+package app
 
 import (
 	"testing"
 )
 
-func TestCalculate(t *testing.T) {
+func TestToPostfix(t *testing.T) {
 	type testPair struct {
-		value  PostfixExpr
-		result string
+		value  Infix
+		result Postfix
 	}
 
 	var tests = []testPair{
-		{PostfixExpr("2 3 + 4 * "), "20.000000"},
-		{PostfixExpr("2 3 4 * + "), "14.000000"},
+		{Infix("(2+3)*4"), Postfix("2 3 + 4 * ")},
+		{Infix("2+(3*4)"), Postfix("2 3 4 * + ")},
 	}
 
 	for _, pair := range tests {
-		v := Calculate(pair.value)
+		v := ToPostfix(pair.value)
 		if v != pair.result {
 			t.Error(
 				"For", pair.value,
