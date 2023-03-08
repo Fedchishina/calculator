@@ -23,14 +23,15 @@ func Calculate(expr Postfix) (string, error) {
 			numbers.Push(number)
 		}
 		if isOperator(symbols[i]) {
-			first, err = strconv.ParseFloat(numbers.Pop(), 64)
-			if err != nil {
-				log.Fatalf("error during parsing %v to float : %v", first, err)
-			}
 			second, err = strconv.ParseFloat(numbers.Pop(), 64)
 			if err != nil {
 				log.Fatalf("error during parsing %v to float : %v", first, err)
 			}
+			first, err = strconv.ParseFloat(numbers.Pop(), 64)
+			if err != nil {
+				log.Fatalf("error during parsing %v to float : %v", first, err)
+			}
+
 			ex := execute(symbols[i], first, second)
 			numbers.Push(fmt.Sprintf("%f", ex))
 		}

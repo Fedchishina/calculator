@@ -3,6 +3,7 @@ package app
 import (
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 const (
@@ -23,17 +24,15 @@ func isOperator(s string) bool {
 }
 
 func findWholeNumber(expr string, pos int) (string, int) {
-	var strNumber string
-	exprArray := strings.Split(expr, "")
-	for ; pos < len(exprArray); pos++ {
-		s := exprArray[pos]
-		if isDigit(s) {
-			strNumber += s
+	var strNumber []rune
+	for _, val := range expr[pos:] {
+		if unicode.IsDigit(val) {
+			strNumber = append(strNumber, val)
+			pos++
 		} else {
 			pos--
 			break
 		}
 	}
-
-	return strNumber, pos
+	return string(strNumber), pos
 }
