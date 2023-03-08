@@ -15,13 +15,11 @@ func (s *Stack) Pop() string {
 		return ""
 	}
 
+	val := s.items[len(s.items)-1]
+
 	s.items = s.items[:len(s.items)-1]
 
-	if len(s.items) == 0 {
-		return ""
-	}
-
-	return s.items[len(s.items)-1]
+	return val
 }
 
 func (s *Stack) Top() string {

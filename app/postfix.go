@@ -23,23 +23,20 @@ func ToPostfix(expr Infix) Postfix {
 			st.Push(openingBracket)
 		case symbols[i] == closingBracket:
 			for st.Count() > 0 && st.Top() != openingBracket {
-				postfixExpr += st.Top() + " "
-				st.Pop()
+				postfixExpr += st.Pop() + " "
 			}
 			st.Pop()
 		default:
 			op := symbols[i]
 			for st.Count() > 0 && operationPriority[st.Top()] >= operationPriority[op] {
-				postfixExpr += st.Top() + " "
-				st.Pop()
+				postfixExpr += st.Pop() + " "
 			}
 			st.Push(op)
 		}
 	}
 
-	for j := 0; j < st.Count(); j++ {
-		postfixExpr += st.Top() + " "
-		st.Pop()
+	for st.Count() > 0 {
+		postfixExpr += st.Pop() + " "
 	}
 
 	return Postfix(postfixExpr)

@@ -23,24 +23,20 @@ func Calculate(expr Postfix) (string, error) {
 			numbers.Push(number)
 		}
 		if isOperator(symbols[i]) {
-			first, err = strconv.ParseFloat(numbers.Top(), 64)
+			first, err = strconv.ParseFloat(numbers.Pop(), 64)
 			if err != nil {
 				log.Fatalf("error during parsing %v to float : %v", first, err)
 			}
-
-			numbers.Pop()
-			second, err = strconv.ParseFloat(numbers.Top(), 64)
+			second, err = strconv.ParseFloat(numbers.Pop(), 64)
 			if err != nil {
 				log.Fatalf("error during parsing %v to float : %v", first, err)
 			}
-
-			numbers.Pop()
 			ex := execute(symbols[i], first, second)
 			numbers.Push(fmt.Sprintf("%f", ex))
 		}
 	}
 
-	return numbers.Top(), nil
+	return numbers.Pop(), nil
 }
 
 func execute(op string, first float64, second float64) float64 {

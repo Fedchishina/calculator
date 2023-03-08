@@ -47,10 +47,10 @@ func TestStackPop(t *testing.T) {
 	stack := Stack{items: []string{"1", "2", "3"}}
 	pop := stack.Pop()
 
-	if "2" != pop {
+	if "3" != pop {
 		t.Error(
-			"Test Push: ",
-			"expected", "2",
+			"Test Pop: ",
+			"expected", "3",
 			"got", pop,
 		)
 	}
