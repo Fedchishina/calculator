@@ -1,6 +1,10 @@
 package stack
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"strconv"
+)
 
 type Stack struct {
 	items []string
@@ -45,4 +49,17 @@ func (s *Stack) Print() {
 		fmt.Print(item, " ")
 	}
 	fmt.Println()
+}
+
+func (s *Stack) PopNumber() float64 {
+	var err error
+	var number float64
+	if s.Count() > 0 {
+		number, err = strconv.ParseFloat(s.Pop(), 64)
+		if err != nil {
+			log.Fatalf("error during parsing %v to float : %v", number, err)
+		}
+	}
+
+	return number
 }

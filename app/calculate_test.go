@@ -17,6 +17,7 @@ func TestCalculate(t *testing.T) {
 		{"example 1", args{Postfix("2 3 + 4 * ")}, "20.000000", false},
 		{"example 2", args{Postfix("2 3 4 * + ")}, "14.000000", false},
 		{"example 3", args{Postfix("254 3 - 2 * ")}, "502.000000", false},
+		{"example 4", args{Postfix("5 4 * - 2 + ")}, "-18.000000", false},
 	}
 
 	for _, tt := range tests {

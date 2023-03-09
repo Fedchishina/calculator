@@ -1,26 +1,15 @@
 package app
 
 import (
-	"strconv"
-	"strings"
 	"unicode"
 )
 
-const (
-	openingBracket = "("
-	closingBracket = ")"
-)
-
-func isDigit(s string) bool {
-	if _, err := strconv.Atoi(s); err == nil {
+func isOperator(r int32) bool {
+	switch r {
+	case '+', '-', '*', '/', '^':
 		return true
 	}
-
 	return false
-}
-
-func isOperator(s string) bool {
-	return strings.Contains("+-/*^", s)
 }
 
 func findWholeNumber(expr string, pos int) (string, int) {
@@ -30,7 +19,6 @@ func findWholeNumber(expr string, pos int) (string, int) {
 			strNumber = append(strNumber, val)
 			pos++
 		} else {
-			pos--
 			break
 		}
 	}

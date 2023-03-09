@@ -15,6 +15,7 @@ func TestToPostfix(t *testing.T) {
 	}{
 		{"example 1", args{Infix("(2+3)*4")}, Postfix("2 3 + 4 * ")},
 		{"example 2", args{Infix("2+(3*4)")}, Postfix("2 3 4 * + ")},
+		{"example 3", args{Infix("(254-3)*2")}, Postfix("254 3 - 2 * ")},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

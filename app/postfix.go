@@ -1,7 +1,7 @@
 package app
 
 import (
-	"strings"
+	"unicode"
 
 	"github.com/Fedchishina/calculator/app/stack"
 )
@@ -11,28 +11,35 @@ type Postfix string
 func ToPostfix(expr Infix) Postfix {
 	var str, postfixExpr string
 	var st stack.Stack
-	operationPriority := operatorsPriority()
-	symbols := strings.Split(string(expr), "")
+	var pos int
 
-	for i := 0; i < len(symbols); i++ {
+	operationPriority := operatorsPriority()
+	for i, val := range expr {
 		switch {
-		case isDigit(symbols[i]):
-			str, i = findWholeNumber(string(expr), i)
+		case i < pos:
+			continue
+		case unicode.IsDigit(val):
+			str, pos = findWholeNumber(string(expr), pos)
 			postfixExpr += str + " "
-		case symbols[i] == openingBracket:
-			st.Push(openingBracket)
-		case symbols[i] == closingBracket:
-			for st.Count() > 0 && st.Top() != openingBracket {
+			continue
+		case val == '(':
+			st.Push("(")
+			pos++
+			continue
+		case val == ')':
+			for st.Count() > 0 && st.Top() != "(" {
 				postfixExpr += st.Pop() + " "
 			}
 			st.Pop()
-		default:
-			op := symbols[i]
-			for st.Count() > 0 && operationPriority[st.Top()] >= operationPriority[op] {
-				postfixExpr += st.Pop() + " "
-			}
-			st.Push(op)
+			pos++
+			continue
 		}
+		op := string(val)
+		for st.Count() > 0 && operationPriority[st.Top()] >= operationPriority[op] {
+			postfixExpr += st.Pop() + " "
+		}
+		st.Push(op)
+		pos++
 	}
 
 	for st.Count() > 0 {
